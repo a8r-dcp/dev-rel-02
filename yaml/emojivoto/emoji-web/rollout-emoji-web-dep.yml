@@ -1,0 +1,87 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  annotations:
+    getambassador.io/rolloutId: 1d1dac4c-b44f-4fdd-b178-8e0618a26c6a
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: web
+    app.kubernetes.io/part-of: emojivoto
+    app.kubernetes.io/version: v11
+  name: web
+  namespace: emojivoto
+spec:
+  replicas: 2
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: web-svc
+      version: v11
+  strategy:
+    canary:
+      canaryService: web-svc-canary
+      stableService: web-svc
+      steps:
+      - setWeight: 10
+      - pause:
+          duration: 6
+      - setWeight: 20
+      - pause:
+          duration: 6
+      - setWeight: 30
+      - pause:
+          duration: 6
+      - setWeight: 40
+      - pause:
+          duration: 6
+      - setWeight: 50
+      - pause:
+          duration: 6
+      - setWeight: 60
+      - pause:
+          duration: 6
+      - setWeight: 70
+      - pause:
+          duration: 6
+      - setWeight: 80
+      - pause:
+          duration: 6
+      - setWeight: 90
+      - pause:
+          duration: 6
+      - setWeight: 100
+      - pause:
+          duration: 6
+      trafficRouting:
+        ambassador:
+          mappings:
+          - emojivoto-mapping
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: web-svc
+        version: v11
+    spec:
+      containers:
+      - env:
+        - name: WEB_PORT
+          value: "8080"
+        - name: EMOJISVC_HOST
+          value: emoji-svc.emojivoto:8080
+        - name: VOTINGSVC_HOST
+          value: voting-svc.emojivoto:8080
+        - name: INDEX_BUNDLE
+          value: dist/index_bundle.js
+        image: caseykurosawa/emojivoto-web:v12
+        name: web-svc
+        ports:
+        - containerPort: 8080
+          name: http
+        resources:
+          requests:
+            cpu: 100m
+      serviceAccountName: web
+status:
+  blueGreen: {}
+  canary: {}
