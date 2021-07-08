@@ -1,0 +1,8 @@
+| Namespace          | Owner                          | Host Name           |Authentication Available |Rate Limiting Available |Service Preview Enabled|
+|--------------------|--------------------------------|--------------- |--------------|---------------|-----------------------|
+| ambassador         | Operations                     | N/A            | N/A          | N/A           | N/A                   |
+| argocd             | Operations                     | *              | N/A          | N/A           | N/A                   |
+| [boutique](https://aes-labs.mturner.k736.net/docs/page/Boutique-Namespace)| Boutique Project Team          |[aes-labs](https://aes-labs.mturner.k736.net)  | Yes          | No            | Yes                   |
+| [demo](https://aes-labs.mturner.k736.net/docs/page/Demo-Namespace)| Operations| [aes-demo](https://aes-demo.mturner.k736.net)             | No           | Yes           | Yes                   |
+| [bazaar](https://aes-labs.mturner.k736.net/docs/page/Bazaar-Namespace)| Bazaar Project Team | [aes-demo](https://aes-demo.mturner.k736.net)             | No           | Yes           | Yes                   |
+

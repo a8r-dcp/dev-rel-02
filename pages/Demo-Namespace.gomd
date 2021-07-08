@@ -1,0 +1,80 @@
+Namespace          | <p style="text-align: center;">Owner</p>                          | <p style="text-align: center;">Host</p>           |<p style="text-align: center;">Authentication Available</p> |<p style="text-align: center;">Rate Limiting Available</p> |<p style="text-align: center;">Service Preview Enabled</p>|
+|--------------------|--------------------------------|--------------- |-------------------------|------------------------|-----------------------|
+|demo             | <p style="text-align: center;">Demo Project Team</p>            | <p style="text-align: center;">aes-demo.com</p>   | <p style="text-align: center;">Yes</p>                     | <p style="text-align: center;">Yes</p>                    | <p style="text-align: center;">Yes</p>                   |
+
+
+
+<pre>
+<span style="color:blue">Authentication:</span>    
+
+---  
+apiVersion: getambassador.io/v2
+kind: FilterPolicy
+metadata:
+  name: demo-auth-filter-policy
+  namespace: demo
+spec:
+  rules:
+    - host: "aes-demo.mturner.k736.net" 
+      path: /foo/         <span style="color:green"># update this value</span>
+      filters:
+        - name: keycloak-oauth2-filter
+          namespace: ambassador
+          arguments:
+            scopes:
+              - "offline_access"
+---                                       
+
+
+<span style="color:blue">Rate Limit</span>
+---~
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: quote-backend   <span style="color:green"># update this value</span>
+  namespace: demo  
+spec:
+  prefix: /backend/     <span style="color:green"># update this value</span>
+  service: quote        <span style="color:green"># update this value</span>
+  labels:
+    ambassador:
+      - request_label:
+        - 5_rpm
+---
+
+<span style="color:blue">Circuit Break:</span>  
+The circuit_breaker configuration in Ambassador allows the configuration of  max_connections per-Mapping.   
+This, along with headers-based routing, allows you to configure a quota of the number of connections each consumer   
+is able to create to an upstream when identifying information is set in a header.  
+
+The example below shows how two customers, customer_id:1 and customer_id:2 accessing the same upstream service  
+will have different connection quotas:  
+
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: api-customer-1
+  namespace: demo
+spec:
+  prefix: /api/           <span style="color:green"># update this value</span>
+  service: api-service    <span style="color:green"># update this value</span>
+  headers:
+    customer_id: 1        <span style="color:green"># update this value</span>
+  circuit_breakers:
+  - max_connections: 1024
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: api-customer-2
+  namespace: demo
+spec:
+  prefix: /api/            <span style="color:green"># update this value</span>
+  service: api-service     <span style="color:green"># update this value</span>
+  headers:
+    customer_id: 2         <span style="color:green"># update this value</span>
+circuit_breakers:
+  - max_connections: 2048
+---
+</pre> 

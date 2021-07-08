@@ -1,0 +1,71 @@
+<span>
+    {{define "landing-head"}}
+    {{end}}
+</span>
+
+### <span style="color:purple">Welcome to the Ambassador Dev Portal</span> 
+
+#### <span style="color:purple">Available Services</span>   
+
+The following services are exposed through this Ambassador instance:
+
+<table cellpadding="2em" width="100%">
+    <thead>
+        <tr>
+            <td><b>Service Name</b></td>
+            <td><b>Swagger URL</b></td>
+        </tr>
+    </thead>
+    <tbody>
+        {{range $i, $element := .S.K8sStore.Slice }}
+        {{if isEven $i }}
+        <tr style="background: rgba(86,61,124,.05);">
+            {{else}}
+            <tr>
+                {{end}}
+                <td>
+                    <samp>{{$element.Service.Namespace}}.{{$element.Service.Name}}</samp>
+                </td>
+                <td>
+                    {{if $element.Metadata.HasDoc}}
+                    <a href="{{$.Prefix}}doc/{{$element.Service.Namespace}}/{{$element.Service.Name}}"><code>API Documentation</code></a>
+                    {{else}}
+                    <code><span style="color:red">No API Documentation</span></code>
+                    {{end}}
+                </td>
+            </tr>
+            {{end}}
+    </tbody>
+</table>
+  
+  
+  
+  
+<hr style="border:6px solid purple"> </hr>
+ <br />
+ <br />
+ <br />
+![my image](https://user-images.githubusercontent.com/54988209/104065503-d7775680-51cd-11eb-9d3f-34c54b73e905.png#center)             
+ <br />
+ <br /> 
+ <br /> 
+<hr style="border:6px solid purple"> </hr>
+
+   
+
+
+#### <span style="color:purple">Available Namespaces</span>   
+Login into [Ambassador Service Catalogue](https://app.getambassador.io/cloud/catalog/) for a comprehensive view of all services deployed across your cluster. 
+
+
+| Namespace                                                         | Owner                 |<p style="text-align: center;">Host Name</p>                                                                    |<p style="text-align: center;">Authentication Available</p>|<p style="text-align: center;">Rate Limiting Available</p>|<p style="text-align: center;">Telepresence Enabled</p>|
+|-------------------------------------------------------------------|-----------------------|----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|
+| ambassador                                                        | Operations            |<p style="text-align: center;">-</p>                                                                            |<p style="text-align: center;">-</p>                       |<p style="text-align: center;">-</p>                      |<p style="text-align: center;">-</p>                      |
+| argocd                                                            | Operations            |<p style="text-align: center;">*</p>                                                                            |<p style="text-align: center;">-</p>                       |<p style="text-align: center;">-</p>                      |<p style="text-align: center;">-</p>                      |
+| [boutique](https://demo-aes.com/docs/page/Boutique-Namespace)     | Boutique Project Team |<p style="text-align: center;">[demo-aes](https://demo-aes.com)</p>                                             |<p style="text-align: center;">Yes</p>                     |<p style="text-align: center;">No</p>                     |<p style="text-align: center;">Yes</p>                    |
+| [emojivoto](https://demo-aes.com/docs/page/Emojivoto-Namespace)   | Emojivoto Project Team |<p style="text-align: center;">[emojivoto.linkerd.amb-labs](https://emojivoto.linkerd.amb-labs.io/)</p>                                   |<p style="text-align: center;">No</p>                      |<p style="text-align: center;">Yes</p>                    |<p style="text-align: center;">Yes</p>                    |
+| [demo](https://demo-aes.com/docs/page/Demo-Namespace)             | Demo Team             |<p style="text-align: center;">[demo-aes](https://demo-aes.com), [edgestack-aes](https://edgestack-aes.com)</p> |<p style="text-align: center;">Yes</p>                     |<p style="text-align: center;">Yes</p>                    |<p style="text-align: center;">Yes</p>                    |
+| [default](https://aes-demo.com/docs/page/Default-Namespace)       | Edgey Team            |<p style="text-align: center;">[aes-demo](https://demo-aes.com), [aes-demo](https://aes-demo.com)</p>           |<p style="text-align: center;">Yes</p>                     |<p style="text-align: center;">Yes</p>                    |<p style="text-align: center;">Yes</p>                    |
+
+
+

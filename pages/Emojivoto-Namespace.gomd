@@ -1,0 +1,228 @@
+| Namespace          | Owner                          |<p style="text-align: center;">Host</p>        |<p style="text-align: center;">Authentication Available</p>|<p style="text-align: center;">Rate Limiting Available|<p style="text-align: center;">Telepresence Enabled</p>|
+|--------------------|--------------------------------|-----------------------------------------------|-----------------------------------------------------------|------------------------------------------------------|----------------------------------------------------------|
+| Emojivoto          | Emojivoto Project Team         |<p style="text-align: center;">https://emojivoto.linkerd.amb-labs.io/</p>| <p style="text-align: center;">Yes</p>                    | <p style="text-align: center;">Yes</p>               | <p style="text-align: center;">Yes</p>                   |
+
+
+<span style="color:blue">A microservice application that allows users to vote for their favorite emoji, and tracks votes received on a leaderboard. May the best emoji win.    
+The application is composed of the following 3 services:</span>    
+
+```
+emojivoto-web: Web frontend and REST API
+emojivoto-emoji-svc: gRPC API for finding and listing emoji
+emojivoto-voting-svc: gRPC API for voting and leaderboard
+```
+
+
+
+![architecture-diagram](https://user-images.githubusercontent.com/54988209/122158960-82ee9c00-ce3b-11eb-9b4f-275635e6641d.png)
+
+
+
+
+<pre>
+<span style="color:blue">Rate Limit</span>
+---~
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: name-here              <span style="color:green"># update this value</span>
+  namespace: test  
+spec:
+  prefix: /prefix-here/        <span style="color:green"># update this value</span>
+  service: service-here        <span style="color:green"># update this value</span>
+  labels:
+    ambassador:
+      - request_label:
+        - 5rpm
+---
+
+
+
+<span style="color:blue">Authentication:</span>    
+
+---  
+apiVersion: getambassador.io/v2
+kind: FilterPolicy
+metadata:
+  name: test-authfilter-policy
+  namespace: test
+spec:
+  rules:
+    - host: "emojivoto.linkerd.amb-labs.io" 
+      path: /prefix-here/         <span style="color:green"># update this value</span>
+      filters:
+        - name: keycloak-oauth2-filter
+          namespace: emojivoto
+          arguments:
+            scopes:
+              - "offline_access"
+---                                       
+
+
+
+
+<span style="color:blue">Circuit Break:</span>  
+The circuit_breaker configuration in Ambassador allows the configuration of  max_connections per-Mapping.   
+This, along with headers-based routing, allows you to configure a quota of the number of connections each consumer   
+is able to create to an upstream when identifying information is set in a header.  
+
+The example below shows how two customers, customer_id:1 and customer_id:2 accessing the same upstream service  
+will have different connection quotas:  
+
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: api-customer-1
+spec:
+  prefix: /api/           <span style="color:green"># update this value</span>
+  service: api-service    <span style="color:green"># update this value</span>
+  headers:
+    customer_id: 1        <span style="color:green"># update this value</span>
+  circuit_breakers:
+  - max_connections: 1024
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: api-customer-2
+spec:
+  prefix: /api/            <span style="color:green"># update this value</span>
+  service: api-service     <span style="color:green"># update this value</span>
+  headers:
+    customer_id: 2         <span style="color:green"># update this value</span>
+circuit_breakers:
+  - max_connections: 2048
+---
+
+
+<span style="color:blue">Traffic Shadowing</span>
+
+Enable shadowing for a given mapping by setting shadow: true in your Mapping. 
+One copy proceeds as if the shadowing Mapping was not present: the request is handed onward per the service(s) 
+defined by the non-shadow Mappings, and the reply from whichever service is picked is handed back to the client.
+
+The second copy is handed to the service defined by the Mapping with shadow set. 
+Any reply from this service is ignored, rather than being handed back to the client. 
+Only a single shadow per resource can be specified (i.e., you can't shadow the same resource to more than 1 additional destination). 
+
+During shadowing, the host header is modified such that -shadow is appended.
+
+Example Mapping without traffic shadowing enabled
+0% of traffic sent to prefix /myservice/ will be shadowed through myservice-shadow.default
+
+---
+apiVersion: getambassador.io/v2
+kind:  Mapping
+metadata:
+  name:  myservice            
+spec:
+  prefix: /myservice/         
+  service: myservice.default  
+ ---
+ 
+ 
+Example: Mapping with Traffic Shadowing enabled
+100% of traffic sent to prefix /myservice/ will be shadowed through myservice-shadow.default.
+
+---
+apiVersion: getambassador.io/v2
+kind:  Mapping
+metadata:
+  name:  myservice-shadow             <span style="color:green"># update this value</span>
+spec:
+  prefix: /myservice/                 <span style="color:green"># update this value</span>
+  service: myservice-shadow.default   <span style="color:green"># update this value</span>
+  shadow: true
+  ---
+
+
+Example: Weighted Shadow Traffic
+10% in of traffic sent to prefix /myservice/ will be shadowed through myservice-shadow.default.
+
+---
+apiVersion: getambassador.io/v2
+kind:  Mapping
+metadata:
+  name:  myservice-shaddow          <span style="color:green"># update this value</span>
+spec:
+  prefix: /myservice/               <span style="color:green"># update this value</span>
+  service: myservice-shadow.boutique <span style="color:green"># update this value</span>
+  shadow: true
+  weight: 10                        <span style="color:green"># update this value</span>
+---
+</pre> 
+
+
+<pre>
+<span style="color:blue">Authentication:</span>    
+
+---  
+apiVersion: getambassador.io/v2
+kind: FilterPolicy
+metadata:
+  name: edgycorp-auth-filter-policy
+  namespace: test
+spec:
+  rules:
+    - host: "edgestack-aes.com" 
+      path: /foo/         <span style="color:green"># update this value</span>
+      filters:
+        - name: keycloak-oauth2-filter
+          namespace: ambassador
+          arguments:
+            scopes:
+              - "offline_access"
+---                                       
+
+
+<span style="color:blue">Rate Limit</span>
+---~
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: quote-backend
+  namespace: test  
+spec:
+  prefix: /backend/     <span style="color:green"># update this value</span>
+  service: quote        <span style="color:green"># update this value</span>
+  labels:
+    ambassador:
+      - request_label:
+        - 5_rpm
+---
+
+<span style="color:blue">Circuit Break:</span>  
+The circuit_breaker configuration in Ambassador allows the configuration of  max_connections per-Mapping.   
+This, along with headers-based routing, allows you to configure a quota of the number of connections each consumer   
+is able to create to an upstream when identifying information is set in a header.  
+
+The example below shows how two customers, customer_id:1 and customer_id:2 accessing the same upstream service  
+will have different connection quotas:  
+
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: api-customer-1
+spec:
+  prefix: /api/           <span style="color:green"># update this value</span>
+  service: api-service    <span style="color:green"># update this value</span>
+  headers:
+    customer_id: 1        <span style="color:green"># update this value</span>
+  circuit_breakers:
+  - max_connections: 1024
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: api-customer-2
+spec:
+  prefix: /api/            <span style="color:green"># update this value</span>
+  service: api-service     <span style="color:green"># update this value</span>
+  headers:
+    customer_id: 2         <span style="color:green"># update this value</span>
+circuit_breakers:
+  - max_connections: 2048
+---
+</pre> 

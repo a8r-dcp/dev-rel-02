@@ -1,0 +1,56 @@
+|<p style="text-align: center;">Namespace</p>        |<p style="text-align: center;">Owner</p>                          |<p style="text-align: center;">Host</p>          |<p style="text-align: center;">Authentication Available</p> |<p style="text-align: center;">Rate Limiting Available</p> |<p style="text-align: center;">Service Preview Enabled</p>|
+|--------------------|--------------------------------|--------------- |-------------------------|------------------------|-----------------------|
+|<p style="text-align: center;">boutque-shadow</p>          |<p style="text-align: center;">Boutique Project Team</p>         |<p style="text-align: center;">aes-labs.com</p>  | <p style="text-align: center;">Yes</p>          | <p style="text-align: center;">Yes</p>                   | <p style="text-align: center;">Yes</p>                  |
+
+<pre> 
+<span style="color:green">Shadow Traffic Mapping</span>  
+
+In Ambassador Edge Stack, you can enable shadowing for a given mapping by setting shadow: true in your Mapping.   
+One copy proceeds as if the shadowing Mapping was not present: the request is handed onward per the service(s) defined   
+by the non-shadow Mappings, and the reply from whichever service is picked is handed back to the client.   
+
+The second copy is handed to the service defined by the Mapping with shadow set.   
+Any reply from this service is ignored, rather than being handed back to the client.
+
+Only a single shadow per resource can be specified (i.e., you can't shadow the same resource to more than 1 additional destination).   
+In this situation, Ambassador Edge Stack will indicate an error in the diagnostic service, and only one shadow will be used.   
+If you need to implement this type of use case, you should shadow traffic to a multicast proxy (or equivalent).   
+
+You can shadow multiple different services.  
+During shadowing, the host header is modified such that -shadow is appended.    
+
+The following example may help illustrate how shadowing can be used.  
+This first attribute sets up a basic mapping between the frontend.boutique service  and the "/" prefix.   
+
+
+ 
+<span style="color:green">This is the mapping of the service to be shadowed. This mapping should not be altered.</span>
+---
+apiVersion: getambassador.io/v2  
+kind: Mapping  
+metadata:  
+  name: frontend  
+  namespace: boutique
+spec:
+  host: aes-labs.com
+  prefix: /
+  service: frontend.boutique
+---  
+
+
+<span style="color:green">Example Traffic Shadow mapping.</span>
+  
+---
+apiVersion: getambassador.io/v2
+kind:  Mapping
+metadata:
+  name:  myservice-shaddow
+  namespace: boutique-shadow
+spec:
+  prefix: /                                   <span style="color:green"># Edit for proper value.</span>
+  host: aes-labs.com
+  service: frontend-shadow.boutique.shadow    <span style="color:green"># Edit for propervalue.</span>
+  shadow: true
+  weight: 20                                   <span style="color:green"># Edit for proper value.</span>
+---  
+</pre>
