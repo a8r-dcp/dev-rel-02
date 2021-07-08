@@ -1,0 +1,61 @@
+---
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: boutique.dr.mturner.k736.net        # Edit this to reflect proper host registered with DNS
+  namespace: ambassador
+spec:
+  hostname: "boutique.dr.mturner.k736.net"  # Host name should be registered with DNS before deploying. Edit this to reflect proper host registered with DNS
+  acmeProvider:
+    authority: https://acme-v02.api.letsencrypt.org/directory
+    email: matt@datawire.io  # Edit this to reflect proper value
+  requestPolicy:
+    insecure:
+      action: Redirect
+      additionalPort: 8080
+---
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: boutique.dr.mturner.k736.net       # Edit this to reflect proper host registered with DNS
+  namespace: ambassador
+spec:
+  hostname: "boutique.dr.mturner.k736.net"  # host name should be registered with DNS before deploying. Edit this to reflect proper host registered with DNS
+  acmeProvider:
+    authority: https://acme-v02.api.letsencrypt.org/directory
+    email: matt@datawire.io     # Edit this to reflect proper value
+  requestPolicy:
+    insecure:
+      action: Redirect
+      additionalPort: 8080
+---
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: monitoring.dr.mturner.k736.net       # Edit this to reflect proper host registered with DNS
+  namespace: ambassador
+spec:
+  hostname: "monitoring.dr.mturner.k736.net"  # host name should be registered with DNS before deploying. Edit this to reflect proper host registered with DNS
+  acmeProvider:
+    authority: https://acme-v02.api.letsencrypt.org/directory
+    email: matt@datawire.io
+  requestPolicy:
+    insecure:
+      action: Redirect
+      additionalPort: 8080
+---
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: argocd.dr.mturner.k736.net      # Edit this to reflect proper host registered with DNS
+  namespace: ambassador
+spec:
+  hostname: "argocd.dr.mturner.k736.net"  # host name should be registered with DNS before deploying. Edit this to reflect proper host registered with DNS
+  acmeProvider:
+    authority: https://acme-v02.api.letsencrypt.org/directory
+    email: matt@datawire.io
+  requestPolicy:
+    insecure:
+      action: Redirect
+      additionalPort: 8080
+---
