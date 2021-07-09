@@ -1,0 +1,10 @@
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: emojivoto-mapping
+  namespace: emojivoto-dev
+spec:
+  host: # needs to be updated 07.08.21
+  precedence: 1
+  prefix: /
+  service: web-svc.emojivoto-dev.svc.cluster.local:80  #  updated 07.08.21  from web-svc.emojivoto.svc.cluster.local:80 
