@@ -2,4 +2,4 @@ kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: web
-  namespace: emojivoto
+  namespace: emojivoto-staging

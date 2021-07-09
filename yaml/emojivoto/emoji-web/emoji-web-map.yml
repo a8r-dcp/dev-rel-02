@@ -2,9 +2,9 @@ apiVersion: getambassador.io/v2
 kind: Mapping
 metadata:
   name: emojivoto-mapping
-  namespace: emojivoto
+  namespace: emojivoto-staging
 spec:
-  host: test.mturner.k736.net
+  host: emojivoto-dev.dr.mturner.k736.net
   precedence: 1
   prefix: /
-  service: web-svc.emojivoto.svc.cluster.local:80
+  service: web-svc.emojivoto-staging:80
