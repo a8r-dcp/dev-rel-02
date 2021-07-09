@@ -2,5 +2,5 @@ kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: voting
-  namespace: emojivoto
+  namespace: emojivoto-staging
 ---
