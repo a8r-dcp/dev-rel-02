@@ -23,7 +23,7 @@ metadata:
   name: frontend
   namespace: boutique
 spec:
-  host: boutique.amb-labs.io       # Modify this for appropriate host
+  host: boutique.dr.mturner.k736.net       # Modify this for appropriate host
   prefix: /
   service: frontend.boutique
 ---
