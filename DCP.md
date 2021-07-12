@@ -11,14 +11,14 @@ The sum of this work is on https://github.com/a8r-dcp/dev-rel-01
 In order to do a hard-redeploy of the emojivoto-dev namespace (if you're running into intercept issues), run the following:
 
 1. `telepresence quit`
-2. `kubectl delete deploy -n emojivoto-dev --all`
+2. `kubectl delete deploy -n emojivoto-dev --all`    
 3. `kubectl delete svc -n emojivoto-dev --all`
-4. (from sol-eng-emojivoto directory) `git checkout dev`
-5. `cd yaml`
-6. `kubectl apply -f emoji-svc`
-7. `kubectl apply -f emoji-voting`
-8. `kubectl apply -f emoji-web`
-9. `cd .. && git checkout main`
+4. (from dev-rel-01 directory) `git checkout dev`
+5. `cd yaml/emojivoto`
+6. `kubectl apply -f emoji-svc`         #THIS ALL NEEDS TO BE CONFIRMED           
+7. `kubectl apply -f emoji-voting`      #THIS ALL NEEDS TO BE CONFIRMED 
+8. `kubectl apply -f emoji-web`         #THIS ALL NEEDS TO BE CONFIRMED 
+9. `cd .. && git checkout main`         #THIS ALL NEEDS TO BE CONFIRMED 
 
 ## Service Catalog Notes
 
@@ -45,8 +45,8 @@ metadata:
     a8r.io/support: https://support.datawire.io/hc/en-us  # Updated 07.08.21
     ### Ambassador docs debugging page
     a8r.io/runbook: https://www.getambassador.io/docs/latest/topics/running/debugging/ # Updated 07.08.2
-    ### REQUIRES LOGIN: Datadog incident panel (Only shows demo screen)
-    a8r.io/incidents: https://app.datadoghq.com/incidents/settings
+    ### Goes to Incident response in the cloud-native world
+    a8r.io/incidents: https://www.getambassador.io/docs/cloud/latest/service-catalog/concepts/ir/#incident-response-in-the-cloud-native-worlds
     ### Jaeger Trace Boutique App.  Frontend to Shipping & Product Catalog
     a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/trace/98ab4d0fa605c2f391340c299bfe2ef0  # Updated 07.08.21
     ### Login before presenting. In most cases login is cached and not required each time. Username = admin, PW = admin
@@ -75,8 +75,7 @@ metadata:
     a8r.io/support: https://support.datawire.io/hc/en-us  # Updated 07.08.21
     ### Ambassador docs debugging page
     a8r.io/runbook: https://www.getambassador.io/docs/latest/topics/running/debugging/ # Updated 07.08.2
-    ### REQUIRES LOGIN: Datadog incident panel (Only shows demo screen)
-    a8r.io/incidents: https://app.datadoghq.com/incidents/settings
+    ### Goes to Incident response in the cloud-native world
     ### Jaeger Trace Boutique App.  Frontend to Shipping & Product Catalog
     a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/trace/98ab4d0fa605c2f391340c299bfe2ef0  # Updated 07.08.21
     ### Login before presenting. In most cases login is cached and not required each time. Username = admin, PW = admin
