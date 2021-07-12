@@ -23,7 +23,7 @@ metadata:
     ### Opens Ambassador Labs' page "Incident response in the cloud-native world"
     a8r.io/incidents: https://www.getambassador.io/docs/cloud/latest/service-catalog/concepts/ir/#incident-response-in-the-cloud-native-world
     ### Jaeger Trace Boutique App.  Frontend to Shipping & Product Catalog
-    a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/trace/98ab4d0fa605c2f391340c299bfe2ef0  # Updated 07.08.21
+    a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/search?end=1633019820000000&limit=20&lookback=custom&maxDuration&minDuration&service=productcatalogservice&start=1626062400000000
     ### Login before presenting. In most cases login is cached and not required each time. Username = admin, PW = admin
     a8r.io/performance: https://monitoring.dr.mturner.k736.net/grafana/d/R_NuxHVWk/ambassador-dashboard?refresh=1m&orgId=1  # Updated 07.08.21
     a8r.io/dependencies: voting-svc.emojivoto, emoji-svc.emojivoto
