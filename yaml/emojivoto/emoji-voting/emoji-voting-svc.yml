@@ -27,7 +27,7 @@ metadata:
     a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/trace/98ab4d0fa605c2f391340c299bfe2ef0  # Updated 07.08.21
     ### Login before presenting. In most cases login is cached and not required each time. Username = admin, PW = admin
     a8r.io/performance: https://monitoring.dr.mturner.k736.net/grafana/d/R_NuxHVWk/ambassador-dashboard?refresh=1m&orgId=1  # Updated 07.08.21
-    a8r.io/dependencies: wweb-svc.emojivoto, emoji-svc.emojivoto
+    a8r.io/dependencies: web-svc.emojivoto, emoji-svc.emojivoto
     ### ArgoRollOuts Annotations
     a8r.io/rollouts.scm.branch: main
     a8r.io/rollouts.scm.path: yaml/emojivoto/emoji-voting # Updated 07.08.21
