@@ -1,3 +1,5 @@
+# This needs to be updated,as Linkerd is not used in this cluster.
+
 # Emoji.voto
 
 A microservice application that allows users to vote for their favorite emoji,
