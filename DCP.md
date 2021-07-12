@@ -22,9 +22,7 @@ In order to do a hard-redeploy of the emojivoto-dev namespace (if you're running
 
 ## Service Catalog Notes
 
-Emoji-Web annotations and descriptions
-
-On the Develpment card:
+On the Develpment card: Emoji-Web [web-svc -n emojivoto] annotations and descriptions  
 
 ```yaml
 metadata:
@@ -45,16 +43,16 @@ metadata:
     a8r.io/support: https://support.datawire.io/hc/en-us  # Updated 07.08.21
     ### Ambassador docs debugging page
     a8r.io/runbook: https://www.getambassador.io/docs/latest/topics/running/debugging/ # Updated 07.08.2
-    ### Goes to Incident response in the cloud-native world
-    a8r.io/incidents: https://www.getambassador.io/docs/cloud/latest/service-catalog/concepts/ir/#incident-response-in-the-cloud-native-worlds
+    ### Opens Ambassador Labs' page "Incident response in the cloud-native world"
+    a8r.io/incidents: https://www.getambassador.io/docs/cloud/latest/service-catalog/concepts/ir/#incident-response-in-the-cloud-native-world
     ### Jaeger Trace Boutique App.  Frontend to Shipping & Product Catalog
-    a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/trace/98ab4d0fa605c2f391340c299bfe2ef0  # Updated 07.08.21
+    a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/search?end=1633019820000000&limit=20&lookback=custom&maxDuration&minDuration&service=productcatalogservice&start=1626062400000000
     ### Login before presenting. In most cases login is cached and not required each time. Username = admin, PW = admin
     a8r.io/performance: https://monitoring.dr.mturner.k736.net/grafana/d/R_NuxHVWk/ambassador-dashboard?refresh=1m&orgId=1  # Updated 07.08.21
     a8r.io/dependencies: voting-svc.emojivoto-dev, emoji-svc.emojivoto-dev
 ```
 
-On the Production card:
+On the Production card: Emoji-Web [web-svc -n emojivoto] annotations and descriptions  
 
 ```yaml
 metadata:
@@ -75,9 +73,10 @@ metadata:
     a8r.io/support: https://support.datawire.io/hc/en-us  # Updated 07.08.21
     ### Ambassador docs debugging page
     a8r.io/runbook: https://www.getambassador.io/docs/latest/topics/running/debugging/ # Updated 07.08.2
-    ### Goes to Incident response in the cloud-native world
+    ### Opens Ambassador Labs' page "Incident response in the cloud-native world"
+    a8r.io/incidents: https://www.getambassador.io/docs/cloud/latest/service-catalog/concepts/ir/#incident-response-in-the-cloud-native-world
     ### Jaeger Trace Boutique App.  Frontend to Shipping & Product Catalog
-    a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/trace/98ab4d0fa605c2f391340c299bfe2ef0  # Updated 07.08.21
+    a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/search?end=1633019820000000&limit=20&lookback=custom&maxDuration&minDuration&service=productcatalogservice&start=1626062400000000
     ### Login before presenting. In most cases login is cached and not required each time. Username = admin, PW = admin
     a8r.io/performance: https://monitoring.dr.mturner.k736.net/grafana/d/R_NuxHVWk/ambassador-dashboard?refresh=1m&orgId=1  # Updated 07.08.21
     a8r.io/dependencies: voting-svc.emojivoto, emoji-svc.emojivoto
@@ -91,7 +90,7 @@ Telepresence 2.3.1
 
 Tested on MacOS 11.4 Big Sur.  Version number in parenthesis was the version tested (6/15/2021).
 
-Requires membership to `aes-t2` organization (https://github.com/aes-t2/).  See `@mturner` for access.
+Requires membership to `a8r-dcp` organization (https://github.com/a8r-dcp/dev-rel-01/).  See `@mturner` for access.
 
 - Docker (20.10.6)
 - go (1.16.5)
@@ -148,7 +147,7 @@ telepresence login && \
 telepresence intercept web-svc -n emojivoto-dev --port 8080:80 -u=true
 ```
 
-*Note* Step 4 is required.  The Emojivoto app is virtually hosted and requires the specific hostname `emojivoto-dev.linkerd.amb-labs.io` in order to be accessed.
+*Note* Step 4 is required.  The Emojivoto app is virtually hosted and requires the specific hostname `emojivoto-dev.dr.mturner.k736.net` in order to be accessed.
 
 ```txt
   1/4: What's your ingress' layer 3 (IP) address?
@@ -160,7 +159,7 @@ telepresence intercept web-svc -n emojivoto-dev --port 8080:80 -u=true
       [default: y]: y
   4/4: If required by your ingress, specify a different layer 5 hostname
     (TLS-SNI, HTTP "Host" header) to access this service.
-      [default: ambassador.ambassador]: boutique-dev.dr.mturner.k736.net
+      [default: ambassador.ambassador]: emojivoto-dev.dr.mturner.k736.net
 ```
 
 Check out new test code:     #THIS NEEDS TO BE CHECKED WITH CASEY
@@ -207,16 +206,16 @@ This build version has been pushed to `docker.io/caseykurosawa/emojivoto-{servic
 
 ### Setup
 
-Open ArgoCD dashboard (admin:initializer), click on the ac-web-svc-emojivoto app:
+Open ArgoCD dashboard (admin:devrel), click on the ac-web-svc-emojivoto app:
 
 ```sh
-argocd.dr.mturner.k736.net
+open https://argocd.dr.mturner.k736.net
 ```
 
 In a new terminal window, monitor Argo Rollout status:
 
 ```sh
-kubectl argo rollouts get rollout -n emojivoto web -w          #THIS NEEDS TO BE CHECKED WITH CASEY, SHOULD THIS BE EMOJIVOTO WEB-SVC
+kubectl argo rollouts get rollout -n emojivoto web -w
 ```
 
 ### Procedure
