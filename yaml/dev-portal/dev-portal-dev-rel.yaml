@@ -1,0 +1,19 @@
+---
+apiVersion: getambassador.io/v2
+kind:  DevPortal
+metadata:
+  name:  ambassador
+  namespace: ambassador
+spec:
+  default: true
+  content:
+    url: https://87795cb60d5eb720bfe38bb2e176269b5a8f0404@github.com/datawire/sales-eng-portal-content.git  # add token and change to proper github path
+    branch: "main"   ## optional; default is "master"
+    dir: "/"     ## optional; default is  "/"
+  selector:
+    matchNamespaces:
+      - test
+    # matchLabels:
+    #   public-api: "true"    ## labels for matching only some Mappings
+    #   documented: "true"    ## (note that "true" must be quoted)
+---
