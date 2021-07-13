@@ -1,0 +1,21 @@
+---
+apiVersion: getambassador.io/v2
+kind:  DevPortal
+metadata:
+  name:  ambassador
+  namespace: ambassador
+spec:
+  default: true
+  content:
+    url: https://github.com/a8r-dcp/dev-rel-01.git/  # add token and change to proper github path
+    # branch: "main"   ## optional; default is "master"
+    # dir: "/"     ## optional; default is  "/"
+  selector:
+    matchNamespaces:
+      - test
+      - emojivoto
+      - boutique
+    # matchLabels:
+    #   public-api: "true"    ## labels for matching only some Mappings
+    #   documented: "true"    ## (note that "true" must be quoted)
+---

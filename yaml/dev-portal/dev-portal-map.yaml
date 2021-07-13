@@ -1,0 +1,12 @@
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: ambassador-devportal-demo
+  namespace: ambassador
+spec:
+  host: monitoring.dr.mturner.k736.net
+  prefix: /docs/
+  rewrite: /docs/
+  service: 127.0.0.1:8500
+---
