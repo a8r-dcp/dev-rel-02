@@ -28,11 +28,11 @@ On the Develpment card: Emoji-Web [web-svc -n emojivoto] annotations and descrip
 metadata:
   annotations:
     a8r.io/description: gRPC API for voting and leaderboard. Lanaguage = Go
-    a8r.io/owner: Daniel Bryant  # Updated 07.08.21
+    a8r.io/owner: Daniel Bryant
     ### Opens slack and shows Daniel Bryant's slack profile
     a8r.io/chat: https://datawire.slack.com/team/U8SPRLSQK
     ### Issues page on application repository
-    a8r.io/bugs: https://github.com/aes-t2/dev-rel-01/issues #1
+    a8r.io/bugs: https://github.com/aes-t2/dev-rel-01/issues
     ### Goes to Ambassador Labs docs: Log levels and debugging
     a8r.io/logs: https://www.getambassador.io/docs/edge-stack/latest/topics/running/running/#log-levels-and-debugging
     ### Goes to the Ambassdor Labs docs homepage
@@ -58,7 +58,7 @@ On the Production card: Emoji-Web [web-svc -n emojivoto] annotations and descrip
 metadata:
   annotations:
     a8r.io/description: gRPC API for voting and leaderboard. Lanaguage = Go
-    a8r.io/owner: Daniel Bryant  # Updated 07.08.21
+    a8r.io/owner: Daniel Bryant
     ### Opens slack and shows Daniel Bryant's slack profile
     a8r.io/chat: https://datawire.slack.com/team/U8SPRLSQK
     ### Issues page on application repository
