@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+  namespace: test
+  labels:
+    app: hello
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      annotations:
+        # getambassador.io/inject-traffic-agent: enabled
+      labels:
+        app: hello
+    spec:
+      containers:                   # Application container
+        - name: hello
+          image: docker.io/datawire/hello-world:latest
+          ports:
+            - name: http
+              containerPort: 8000   # Application port
+---

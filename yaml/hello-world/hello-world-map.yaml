@@ -1,0 +1,16 @@
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: hello
+  namespace: test
+  labels:
+    public-api: "false"    ## labels for matching only some Mappings
+    documented: "false"    ## (note that "true" must be quoted)
+spec:
+  prefix: /hello/
+  service: hello.test:80
+  docs:
+    docs:
+    url: https://api.swaggerhub.com/apis/matt-aes/hello-world/1.0.0/swagger.json
+---
