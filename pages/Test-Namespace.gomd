@@ -1,6 +1,6 @@
-Namespace          | <p style="text-align: center;">Owner</p>                          | <p style="text-align: center;">Host</p>           |<p style="text-align: center;">Authentication Available</p> |<p style="text-align: center;">Rate Limiting Available</p> |<p style="text-align: center;">Service Preview Enabled</p>|
-|--------------------|--------------------------------|--------------- |-------------------------|------------------------|-----------------------|
-|demo             | <p style="text-align: center;">Demo Project Team</p>            | <p style="text-align: center;">aes-demo.com</p>   | <p style="text-align: center;">Yes</p>                     | <p style="text-align: center;">Yes</p>                    | <p style="text-align: center;">Yes</p>                   |
+Namespace        | <p style="text-align: center;">Owner</p>                        | <p style="text-align: center;">Host</p>        |<p style="text-align: center;">Authentication Available</p> |<p style="text-align: center;">Rate Limiting Available</p> |<p style="text-align: center;">Telepresence Enabled</p>|
+|----------------|-----------------------------------------------------------------|------------------------------------------------|------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+|test            | <p style="text-align: center;">Test Project Team</p>            | <p style="text-align: center;">*</p>           | <p style="text-align: center;">Yes</p>                     | <p style="text-align: center;">Yes</p>                    | <p style="text-align: center;">Yes</p>                |
 
 
 
