@@ -22,7 +22,7 @@ kind: Service
 metadata:
   name: productcatalogservice
   namespace: boutique-dev
-annotations:
+  annotations:
     a8r.io/description: "Provides the list of products from a JSON file and ability to search products and get individual products.. Lanaguage = Go"
     a8r.io/owner: "Daniel Bryant"  # Updated 07.08.21
     ### Opens slack and shows Daniel Bryant's slack profile
