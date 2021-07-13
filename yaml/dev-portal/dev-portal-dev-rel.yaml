@@ -13,8 +13,8 @@ spec:
   selector:
     matchNamespaces:
       - test
-      - emojivoto
-      - boutique
+      #- emojivoto
+      #- boutique
     # matchLabels:
     #   public-api: "true"    ## labels for matching only some Mappings
     #   documented: "true"    ## (note that "true" must be quoted)
