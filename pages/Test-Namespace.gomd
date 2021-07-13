@@ -1,6 +1,6 @@
 | Namespace          | Owner                          |<p style="text-align: center;">Host</p>        |<p style="text-align: center;">Authentication Available</p>|<p style="text-align: center;">Rate Limiting Available|<p style="text-align: center;">Telepresence Enabled</p>|
 |--------------------|--------------------------------|-----------------------------------------------|-----------------------------------------------------------|------------------------------------------------------|----------------------------------------------------------|
-| test           | Test Project Team          |<p style="text-align: center;">all hosts/p>| <p style="text-align: center;">Yes</p>                    | <p style="text-align: center;">Yes</p>               | <p style="text-align: center;">Yes</p>                   |
+| test           | Test Project Team          |<p style="text-align: center;">all hosts</p>| <p style="text-align: center;">Yes</p>                    | <p style="text-align: center;">Yes</p>               | <p style="text-align: center;">Yes</p>                   |
 
 <pre>
 <span style="color:blue">Authentication:</span>    
