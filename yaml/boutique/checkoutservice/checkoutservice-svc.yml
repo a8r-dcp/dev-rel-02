@@ -24,17 +24,17 @@ metadata:
   namespace: boutique
   annotations:
     a8r.io/description: "Sends users an order confirmation email (mock). Lanaguage = Python"
-    a8r.io/owner: Daniel Bryant  # Updated 07.08.21
+    a8r.io/owner: "Daniel Bryant"  # Updated 07.08.21
     ### Opens slack and shows Daniel Bryant's slack profile
     a8r.io/chat: https://datawire.slack.com/team/U8SPRLSQK
     ### Issues page on application repository
-    a8r.io/bugs: https://github.com/aes-t2/dev-rel-01/issues # Updated 07.08.21
+    a8r.io/bugs: "https://github.com/aes-t2/dev-rel-01/issues" # Updated 07.08.21
     ### Goes to Ambassador Labs docs: Log levels and debugging
     a8r.io/logs: https://www.getambassador.io/docs/edge-stack/latest/topics/running/running/#log-levels-and-debugging
     ### Goes to the Ambassdor Labs Cloud Annotations documentation
     a8r.io/documentation: https://www.getambassador.io/docs/cloud/latest/service-catalog/reference/annotations/
     ### Emojivoto repository
-    a8r.io/repository: "https://github.com/aes-t2/sol-eng-microservices-demo" # Updated 07.08.21
+    a8r.io/repository: https://github.com/aes-t2/dev-rel-01.git  # Updated 07.08.21
     ### Ambassador Labs Support Portal Login Page
     a8r.io/support: https://support.datawire.io/hc/en-us  # Updated 07.08.21
     ### Ambassador docs debugging page
@@ -42,9 +42,8 @@ metadata:
     ### Opens Ambassador Labs' page "Incident response in the cloud-native world"
     a8r.io/incidents: https://www.getambassador.io/docs/cloud/latest/service-catalog/concepts/ir/#incident-response-in-the-cloud-native-world
     ### Jaeger Trace Boutique App.  Frontend to Shipping & Product Catalog
-    a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/trace/98ab4d0fa605c2f391340c299bfe2ef0  # Updated 07.08.21
+    a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/search?end=1633019820000000&limit=20&lookback=custom&maxDuration&minDuration&service=productcatalogservice&start=1626062400000000
     ### Login before presenting. In most cases login is cached and not required each time. Username = admin, PW = admin
-    a8r.io/performance: https://monitoring.dr.mturner.k736.net/grafana/d/R_NuxHVWk/ambassador-dashboard?refresh=1m&orgId=1  # Updated 07.08.21
     a8r.io/dependencies: "currencyservice.boutique, frontend.boutique, emailservice.boutique, recommendationservice.boutique, paymentservice.boutique, productcatalogservice.boutique, cartservice.boutique, shippingservice.boutique, adservice.boutique, redis-cart.boutique"
 spec:
   type: ClusterIP
