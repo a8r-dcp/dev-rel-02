@@ -1,0 +1,15 @@
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: quote-backend
+  namespace: test
+  labels:
+    public-api: "false"    ## labels for matching only some Mappings
+    documented: "false"    ## (note that "true" must be quoted)
+spec:
+  prefix: /backend/
+  service: quote-backend.test:80
+  docs:
+    path: /.ambassador-internal/openapi-docs 
+---
