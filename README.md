@@ -1,267 +1,275 @@
-# This needs to be updated,as Linkerd is not used in this cluster.
+# DCP Demo
 
-# Emoji.voto
+This demo uses Emojivoto (https://github.com/BuoyantIO/emojivoto), but has some additional modifications that were necessary in order to run with a more recent gRPC go library and on MacOS.
 
-A microservice application that allows users to vote for their favorite emoji,
-and tracks votes received on a leaderboard. May the best emoji win.
+The Cluster is set up such that there is an `emojivoto-dev` namespace with the emojivoto application deployed, and an `emojivoto` namespace that has the production version that is managed in Argo Rollouts.
 
-The application is composed of the following 3 services:
 
-* [emojivoto-web](emojivoto-web/): Web frontend and REST API
-* [emojivoto-emoji-svc](emojivoto-emoji-svc/): gRPC API for finding and listing emoji
-* [emojivoto-voting-svc](emojivoto-voting-svc/): gRPC API for voting and leaderboard
 
-![Emojivoto Topology](assets/emojivoto-topology.png "Emojivoto Topology")
+## Telepresence Hard Reset
 
-## Running
+In order to do a hard-redeploy of the emojivoto-dev namespace (if you're running into intercept issues), run the following:
 
-### In Minikube
+1. `telepresence quit`
+2. `kubectl delete deploy -n emojivoto-dev --all`    
+3. `kubectl delete svc -n emojivoto-dev --all`
+4. (from dev-rel-01 directory) `git checkout dev`
+5. `cd yaml/emojivoto`
+6. `kubectl apply -f emoji-svc`                  
+7. `kubectl apply -f emoji-voting`    
+8. `kubectl apply -f emoji-web`          
+9. `cd .. && git checkout main`  
 
-Deploy the application to Minikube using the Linkerd2 service mesh.
+## Service Catalog Notes
 
-1. Install the `linkerd` CLI
+On the Develpment card: Emoji-Web [web-svc -n emojivoto] annotations and descriptions  
 
-    ```bash
-    curl https://run.linkerd.io/install | sh
-    ```
-
-1. Install Linkerd2
-
-    ```bash
-    linkerd install | kubectl apply -f -
-    ```
-
-1. View the dashboard!
-
-    ```bash
-    linkerd dashboard
-    ```
-
-1. Inject, Deploy, and Enjoy
-
-    ```bash
-    kubectl kustomize kustomize/deployment | \
-        linkerd inject - | \
-        kubectl apply -f -
-    ```
-
-1. Use the app!
-
-    ```bash
-    minikube -n emojivoto service web-svc
-    ```
-
-### In docker-compose
-
-It's also possible to run the app with docker-compose (without Linkerd2).
-
-Build and run:
-
-```bash
-make deploy-to-docker-compose
+```yaml
+metadata:
+  annotations:
+    a8r.io/description: gRPC API for voting and leaderboard. Lanaguage = Go
+    a8r.io/owner: Daniel Bryant  # Updated 07.08.21
+    ### Opens slack and shows Daniel Bryant's slack profile
+    a8r.io/chat: https://datawire.slack.com/team/U8SPRLSQK
+    ### Issues page on application repository
+    a8r.io/bugs: https://github.com/aes-t2/dev-rel-01/issues #1
+    ### Goes to Ambassador Labs docs: Log levels and debugging
+    a8r.io/logs: https://www.getambassador.io/docs/edge-stack/latest/topics/running/running/#log-levels-and-debugging
+    ### Goes to the Ambassdor Labs docs homepage
+    a8r.io/documentation: https://www.getambassador.io/docs/latest/
+    ### Emojivoto repository
+    a8r.io/repository: https://github.com/aes-t2/dev-rel-01.git  
+    ### Ambassador Labs Support Portal Login Page
+    a8r.io/support: https://support.datawire.io/hc/en-us
+    ### Ambassador docs debugging page
+    a8r.io/runbook: https://www.getambassador.io/docs/latest/topics/running/debugging/
+    ### REQUIRES LOGIN: Datadog incident panel (Only shows demo screen)
+    a8r.io/incidents: https://app.datadoghq.com/incidents/settings
+    ### Jaeger Trace Boutique App.  Frontend to Shipping & Product Catalog
+    a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/trace/98ab4d0fa605c2f391340c299bfe2ef0
+    ### Login before presenting. In most cases login is cached and not required each time. Username = admin, PW = admin
+    a8r.io/performance: https://monitoring.dr.mturner.k736.net/grafana/d/R_NuxHVWk/ambassador-dashboard?refresh=1m&orgId=1
+    a8r.io/dependencies: voting-svc.emojivoto-dev, emoji-svc.emojivoto-dev
 ```
 
-The web app will be running on port 8080 of your docker host.
+On the Production card: Emoji-Web [web-svc -n emojivoto] annotations and descriptions  
 
-### Via URL
-
-To deploy standalone to an existing cluster:
-
-```bash
-kubectl apply -k github.com/BuoyantIO/emojivoto/kustomize/deployment
+```yaml
+metadata:
+  annotations:
+    a8r.io/description: gRPC API for voting and leaderboard. Lanaguage = Go
+    a8r.io/owner: Daniel Bryant  # Updated 07.08.21
+    ### Opens slack and shows Daniel Bryant's slack profile
+    a8r.io/chat: https://datawire.slack.com/team/U8SPRLSQK
+    ### Issues page on application repository
+    a8r.io/bugs: https://github.com/aes-t2/dev-rel-01/issues
+    ### Goes to Ambassador Labs docs: Log levels and debugging
+    a8r.io/logs: https://www.getambassador.io/docs/edge-stack/latest/topics/running/running/#log-levels-and-debugging
+    ### Goes to the Ambassdor Labs docs homepage
+    a8r.io/documentation: https://www.getambassador.io/docs/latest/
+    ### Emojivoto repository
+    a8r.io/repository: https://github.com/aes-t2/dev-rel-01.git
+    ### Ambassador Labs Support Portal Login Page
+    a8r.io/support: https://support.datawire.io/hc/en-us
+    ### Ambassador docs debugging page
+    a8r.io/runbook: https://www.getambassador.io/docs/latest/topics/running/debugging/
+    ### REQUIRES LOGIN: Datadog incident panel (Only shows demo screen)
+    a8r.io/incidents: https://app.datadoghq.com/incidents/settings
+    ### Jaeger Trace Boutique App.  Frontend to Shipping & Product Catalog
+    a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/trace/98ab4d0fa605c2f391340c299bfe2ef0
+    ### Login before presenting. In most cases login is cached and not required each time. Username = admin, PW = admin
+    a8r.io/performance: https://monitoring.dr.mturner.k736.net/grafana/d/R_NuxHVWk/ambassador-dashboard?refresh=1m&orgId=1
+    a8r.io/dependencies: voting-svc.emojivoto, emoji-svc.emojivoto
 ```
 
-### Generating some traffic
+## Telepresence demo
 
-The `VoteBot` service can generate some traffic for you. It votes on emoji
-"randomly" as follows:
+### Prerequisites
 
-- It votes for :doughnut: 15% of the time.
-- When not voting for :doughnut:, it picks an emoji at random
+Telepresence 2.3.1 or later
 
-If you're running the app using the instructions above, the VoteBot will have
-been deployed and will start sending traffic to the vote endpoint.
+Tested on MacOS 11.4 Big Sur.  Version number in parenthesis was the version tested (6/15/2021).
 
-If you'd like to run the bot manually:
+Requires membership to `a8r-dcp` organization (https://github.com/a8r-dcp/dev-rel-01/).  See `@mturner` for access.
 
-```bash
-export WEB_HOST=localhost:8080 # replace with your web location
-go run emojivoto-web/cmd/vote-bot/main.go
+- Docker (20.10.6)
+- go (1.16.5)
+- protobuf (3.17.3)
+- protoc-gen-go (1.26.0)
+- protoc-gen-go-grpc (1.1.0)
+- yarn (1.22.10)
+
+### Setup
+
+Clone this repository and cd into folder:
+
+```sh
+git clone https://github.com/a8r-dcp/dev-rel-01
+cd dev-rel-01
 ```
 
-## Releasing a new version
+Export Kubeconfig:
 
-To build and push multi-arch docker images:
+```sh
+export KUBECONFIG=$(pwd)/cluster-setup/dev-rel-01.yaml
+```
 
-1. Update the tag name in `common.mk`
-1. Create the Buildx builder instance
+Build dependencies and generate protobuf code:
 
-    ```bash
-    docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-    docker buildx create --name=multiarch-builder --driver=docker-container --use
-    docker buildx inspect multiarch-builder --bootstrap
-    ```
-
-1. Build & push the multi-arch docker images to hub.docker.com
-
-    ```bash
-    docker login
-    make multi-arch
-    ```
-
-1. Update:
-    - `docker-compose.yml`
-    - `kustomize/deployment/emoji.yml`
-    - `kustomize/deployment/vote-bot.yml`
-    - `kustomize/deployment/voting.yml`
-    - `kustomize/deployment/web.yml`
-
-1. Distribute to the Linkerd website repo
-
-    ```bash
-    kubectl kustomize kustomize/deployment  > ../website/run.linkerd.io/public/emojivoto.yml
-    kubectl kustomize kustomize/daemonset   > ../website/run.linkerd.io/public/emojivoto-daemonset.yml
-    kubectl kustomize kustomize/statefulset > ../website/run.linkerd.io/public/emojivoto-statefulset.yml
-    ```
-
-## Prometheus Metrics
-
-By default the voting service exposes Prometheus metrics about current vote count on port `8801`.
-
-This can be disabled by unsetting the `PROM_PORT` environment variable.
-
-## Local Development
-
-### Emojivoto webapp
-
-This app is written with React and bundled with webpack.
-Use the following to run the emojivoto go services and develop on the frontend.
-
-Set up proto files, build apps
-
-```bash
+```sh
 make build
 ```
 
-Start the voting service
+### Procedure
 
-```bash
-GRPC_PORT=8081 go run emojivoto-voting-svc/cmd/server.go
+#### Show emojivoto-dev page
+
+```sh
+open emojivoto-dev.dr.mturner.k736.net
 ```
 
-[In a separate terminal window] Start the emoji service
+#### Show emojivoto-dev service catalog
 
-```bash
-GRPC_PORT=8082 go run emojivoto-emoji-svc/cmd/server.go
+```sh
+open https://app.getambassador.io
 ```
 
-[In a separate terminal window] Bundle the frontend assets
+Recommended: You can set some favorites (click the 3 dots on the right side of a service card) so that the dashboard isn't as cluttered.  These are managed on a per-user basis so they cannot be pre-configured by another person.
 
-```bash
-cd emojivoto-web/webapp
-yarn install
-yarn webpack # one time asset-bundling OR
-yarn webpack-dev-server --port 8083 # bundle/serve reloading assets
+Select the `web-svc` card under the Development column.  This will be the deployment we will be intercepting with Telepresence.
+
+#### Run intercept and start code locally
+
+Start intercept:
+
+```sh
+telepresence login && \
+telepresence intercept web-svc -n emojivoto-dev --port 8080:80 -u=true
 ```
 
-[In a separate terminal window] Start the web service
+*Note* Step 4 is required.  The Emojivoto app is virtually hosted and requires the specific hostname `emojivoto-dev.dr.mturner.k736.net` in order to be accessed.
 
-```bash
-export WEB_PORT=8080
-export VOTINGSVC_HOST=localhost:8081
-export EMOJISVC_HOST=localhost:8082
-
-# if you ran yarn webpack
-export INDEX_BUNDLE=emojivoto-web/webapp/dist/index_bundle.js
-
-# if you ran yarn webpack-dev-server
-export WEBPACK_DEV_SERVER=http://localhost:8083
-
-# start the webserver
-go run emojivoto-web/cmd/server.go
+```txt
+  1/4: What's your ingress' layer 3 (IP) address?
+    You may use an IP address or a DNS name (this is usually a "service.namespace" DNS name).
+      [default: ambassador.ambassador]: ambassador.ambassador
+  2/4: What's your ingress' layer 4 address (TCP port number)?
+      [default: 443]: 443
+  3/4: Does that TCP port on your ingress use TLS (as opposed to cleartext?
+      [default: y]: y
+  4/4: If required by your ingress, specify a different layer 5 hostname
+    (TLS-SNI, HTTP "Host" header) to access this service.
+      [default: ambassador.ambassador]: emojivoto-dev.dr.mturner.k736.net
 ```
 
-[Optional] Start the vote bot for automatic traffic generation.
+Check out new test code:     #THIS NEEDS TO BE CHECKED WITH CASEY
 
-```bash
-export WEB_HOST=localhost:8080
-go run emojivoto-web/cmd/vote-bot/main.go
+```sh
+git checkout cakuros/web-update
 ```
 
-View emojivoto
+Open new terminal window, and start running the webpack-dev-server:  #THIS NEEDS TO BE CHECKED WITH CASEY
 
-```bash
-open http://localhost:8080
+```sh
+cd emojivoto-web
+yarn webpack-dev-server --port 8083
 ```
 
-### Testing Linkerd Service Profiles
+Open new terminal window and start running the web server:  #THIS NEEDS TO BE CHECKED WITH CASEY
 
-[Service Profiles](https://linkerd.io/2/features/service-profiles/) are a
-feature of Linkerd that provide per-route functionality such as telemetry,
-timeouts, and retries. The Emojivoto application is designed to showcase
-Service Profiles by following the instructions below.
-
-#### Generate the ServiceProfile definitions from the `.proto` files
-
-The `emoji` and `voting` services are [gRPC](https://grpc.io/) applications
-which have [Protocol Buffers (protobuf)](https://developers.google.com/protocol-buffers)
-definition files. These `.proto` files can be used as input to the `linkerd
-profile` command in order to create the `ServiceProfile` definition yaml files.
-The [Linkerd Service Profile documentation](https://linkerd.io/2/tasks/setting-up-service-profiles/#protobuf)
-outlines the steps necessary to create the yaml files, and these are the
-commands you can use from the root of this repository:
-
-```
-linkerd profile --proto proto/Emoji.proto emoji-svc -n emojivoto
-```
-```
-linkerd profile --proto proto/Voting.proto voting-svc -n emojivoto
+```sh
+cd emojivoto-web
+make run-tel
 ```
 
-Each of these commands will output yaml that you can write to a file or pipe
-directly to `kubectl apply`. For example:
+Open the new intercepted service (e.g. https://laughing-benz-205.preview-beta.edgestack.me):
 
-- To write to a file:
-```
-linkerd profile --proto proto/Emoji.proto emoji-svc -n emojivoto > emoji
--sp.yaml
+```sh
+open https://laughing-benz-205.preview-beta.edgestack.me
 ```
 
-- To apply directly:
+This build version has been pushed to `docker.io/caseykurosawa/emojivoto-{service-name}:v13-rc0` as a new image for Rollouts in the next section.
+
+## Argo Rollouts demo
+
+### Prerequisites
+
+(Required)
+
+- Enable Developer Preview mode in DCP.
+
+  Open the Developer Control Plane, go to the web-svc card under the Production column.  Select the Rollouts tab and a popup will ask you if you want to enable the feature.  Select Enable Rollouts to continue.  This only needs to be done once per user.
+
+(Optional)
+
+- Kubectl argo rollout plugin (v1.0.0)
+
+### Setup
+
+Open ArgoCD dashboard (admin:devrel), click on the ac-web-svc-emojivoto app:
+
+```sh
+open https://argocd.dr.mturner.k736.net
 ```
-linkerd profile --proto proto/Voting.proto voting-svc -n emojivoto | \
-kubectl apply -f -
+
+In a new terminal window, monitor Argo Rollout status:
+
+```sh
+kubectl argo rollouts get rollout -n emojivoto web -w
 ```
 
-#### Generate the ServiceProfile definition for the Web deployment
+### Procedure
 
-The `web-svc` deployment of emojivoto is a React application that is hosted by a
-Go server. We can use [`linkerd profile auto creation`](https://linkerd.io/2/tasks/setting-up-service-profiles/#auto-creation)
-to generate the `ServiceProfile` resource for the web-svc with this command:
+Show the production version of Emojivoto:
 
-```bash
-linkerd profile -n emojivoto web-svc --tap deploy/web --tap-duration 10s | \
-   kubectl apply -f -
+```sh
+emojivoto.dr.mturner.k736.net
 ```
 
-Now that the service profiles are generated for all the services, you can
-observe the per-route metrics for each service on the [Linkerd Dashboard](https://linkerd.io/2/features/dashboard/)
-or with the `linkerd routes` command
+Go back to DCP startpage:
 
-```bash
-linkerd -n emojivoto routes deploy/web-svc --to svc/emoji-svc
+```sh
+open https://app.getambassador.io
 ```
-## License
 
-Copyright 2020 Buoyant, Inc. All rights reserved.
+Select the web-svc card under the Production column.
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-these files except in compliance with the License. You may obtain a copy of the
-License at
+#### Click on the Start Rollout button in the top bar
 
-    http://www.apache.org/licenses/LICENSE-2.0
+Set the Image Tag to `caseykurosawa/emojivoto-web v13-rc0`, set your rollout duration, and weight increment.  Please keep the number of pods set to 2 at maximum (this is to avoid over-allocating CPU requests to the node).
 
-Unless required by applicable law or agreed to in writing, software distributed
-under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-CONDITIONS OF ANY KIND, either express or implied. See the License for the
-specific language governing permissions and limitations under the License.
+*Note*: make sure to only click the `Start Rollout` button once.  Multiple clicks will result in multiple PR's being generated.
+
+The button will automatically take you to the Rollouts tab and show a `Pull Request` button that you can click.  Follow the link and merge the PR.
+
+Go back to the Argo dashboard and click Refresh for Argo to pick up the new change and initiate the rollout.
+
+Back in the Service Catalog, you will be able to see some stats about the Rollout, including Canary percentage and the amount of time remaining in the rollout.
+
+#### Check Grafana
+
+Some grafana dashboards (admin:prom-operator):
+Ambassador Dashboard: https://monitoring.dr.mturner.k736.net/grafana/d/R_NuxHVWk/ambassador-dashboard?refresh=1m&orgId=1
+ArgoCD and ArgoRollouts Dashboards are TBD.  
+
+#### Check new rollout
+
+Once the rollout is complete, go back to the emojivoto app to see the new changes:
+
+```sh
+open https://emojivoto.dr.mturner.k736.net
+```
+
+## Revert back to prep for next demo
+
+Re-run the same procedure creating a new rollout, but target `caseykurosawa/emojivoto-web v12` as the image version to restore the original emojivoto-web.
+
+For Telepresence, run `telepresence quit` to disconnect all intercepts and disconnect from the cluster.
+
+The running `make run-tel` and `yarn webpack-dev-server --port 8083` can be interrupted (Ctl + C)
+
+Check out the main branch to get your local code back to the production version.
+
+```sh
+git checkout main
+```
