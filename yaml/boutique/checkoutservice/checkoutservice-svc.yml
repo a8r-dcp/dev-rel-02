@@ -44,6 +44,7 @@ metadata:
     ### Jaeger Trace Boutique App.  Frontend to Shipping & Product Catalog
     a8r.io/uptime: https://monitoring.dr.mturner.k736.net/jaeger/search?end=1633019820000000&limit=20&lookback=custom&maxDuration&minDuration&service=productcatalogservice&start=1626062400000000
     ### Login before presenting. In most cases login is cached and not required each time. Username = admin, PW = admin
+    a8r.io/performance: https://monitoring.dr.mturner.k736.net/grafana/d/R_NuxHVWk/ambassador-dashboard?refresh=1m&orgId=1  # Updated 07.08.21
     a8r.io/dependencies: "currencyservice.boutique, frontend.boutique, emailservice.boutique, recommendationservice.boutique, paymentservice.boutique, productcatalogservice.boutique, cartservice.boutique, shippingservice.boutique, adservice.boutique, redis-cart.boutique"
 spec:
   type: ClusterIP
