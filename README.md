@@ -15,9 +15,9 @@ In order to do a hard-redeploy of the emojivoto-dev namespace (if you're running
 3. `kubectl delete svc -n emojivoto-dev --all`
 4. (from dev-rel-01 directory) `git checkout dev`
 5. `cd yaml/emojivoto`
-6. `kubectl apply -f emoji-svc`                  
-7. `kubectl apply -f emoji-voting`    
-8. `kubectl apply -f emoji-web`          
+6. `kubectl apply -f emoji-svc.yaml`                  
+7. `kubectl apply -f emoji-voting.yaml`    
+8. `kubectl apply -f emoji-web.yaml`          
 9. `cd .. && git checkout main`  
 
 ## Service Catalog Notes
@@ -125,7 +125,7 @@ make build
 #### Show emojivoto-dev page
 
 ```sh
-open emojivoto-dev.dr.mturner.k736.net
+open https://emojivoto-dev.dr.mturner.k736.net
 ```
 
 #### Show emojivoto-dev service catalog
@@ -139,28 +139,6 @@ Recommended: You can set some favorites (click the 3 dots on the right side of a
 Select the `web-svc` card under the Development column.  This will be the deployment we will be intercepting with Telepresence.
 
 #### Run intercept and start code locally
-
-Start intercept:
-
-```sh
-telepresence login && \
-telepresence intercept web-svc -n emojivoto-dev --port 8080:80 -u=true
-```
-
-*Note* Step 4 is required.  The Emojivoto app is virtually hosted and requires the specific hostname `emojivoto-dev.dr.mturner.k736.net` in order to be accessed.
-
-```txt
-  1/4: What's your ingress' layer 3 (IP) address?
-    You may use an IP address or a DNS name (this is usually a "service.namespace" DNS name).
-      [default: ambassador.ambassador]: ambassador.ambassador
-  2/4: What's your ingress' layer 4 address (TCP port number)?
-      [default: 443]: 443
-  3/4: Does that TCP port on your ingress use TLS (as opposed to cleartext?
-      [default: y]: y
-  4/4: If required by your ingress, specify a different layer 5 hostname
-    (TLS-SNI, HTTP "Host" header) to access this service.
-      [default: ambassador.ambassador]: emojivoto-dev.dr.mturner.k736.net
-```
 
 Check out new test code:     #THIS NEEDS TO BE CHECKED WITH CASEY
 
@@ -180,6 +158,30 @@ Open new terminal window and start running the web server:  #THIS NEEDS TO BE CH
 ```sh
 cd emojivoto-web
 make run-tel
+```
+
+Start intercept:
+
+*Note* Make sure you are logged in correctly.  If you're not sure, or you're getting the error banner page on the Preview URL, run `telepresence logout`, `telepresence quit`, `telepresence connect`, and `telepresence login` in that order.
+
+```sh
+telepresence login && \
+telepresence intercept web-svc -n emojivoto-dev --port 8080:80 -u=true
+```
+
+*Note* Step 4 is required.  The Emojivoto app is virtually hosted and requires the specific hostname `emojivoto-dev.dr.mturner.k736.net` in order to be accessed.
+
+```txt
+  1/4: What's your ingress' layer 3 (IP) address?
+    You may use an IP address or a DNS name (this is usually a "service.namespace" DNS name).
+      [default: ambassador.ambassador]: ambassador.ambassador
+  2/4: What's your ingress' layer 4 address (TCP port number)?
+      [default: 443]: 443
+  3/4: Does that TCP port on your ingress use TLS (as opposed to cleartext?
+      [default: y]: y
+  4/4: If required by your ingress, specify a different layer 5 hostname
+    (TLS-SNI, HTTP "Host" header) to access this service.
+      [default: ambassador.ambassador]: emojivoto-dev.dr.mturner.k736.net
 ```
 
 Open the new intercepted service (e.g. https://laughing-benz-205.preview-beta.edgestack.me):
@@ -223,7 +225,7 @@ kubectl argo rollouts get rollout -n emojivoto web -w
 Show the production version of Emojivoto:
 
 ```sh
-emojivoto.dr.mturner.k736.net
+open https://emojivoto.dr.mturner.k736.net
 ```
 
 Go back to DCP startpage:
@@ -264,7 +266,7 @@ open https://emojivoto.dr.mturner.k736.net
 
 Re-run the same procedure creating a new rollout, but target `caseykurosawa/emojivoto-web v12` as the image version to restore the original emojivoto-web.
 
-For Telepresence, run `telepresence quit` to disconnect all intercepts and disconnect from the cluster.
+For Telepresence, run `telepresence logout && telepresence quit` to disconnect all intercepts and disconnect from the cluster.
 
 The running `make run-tel` and `yarn webpack-dev-server --port 8083` can be interrupted (Ctl + C)
 
