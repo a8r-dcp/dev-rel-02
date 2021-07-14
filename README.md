@@ -140,20 +140,20 @@ Select the `web-svc` card under the Development column.  This will be the deploy
 
 #### Run intercept and start code locally
 
-Check out new test code:     #THIS NEEDS TO BE CHECKED WITH CASEY
+Check out new test code:
 
 ```sh
 git checkout cakuros/web-update
 ```
 
-Open new terminal window, and start running the webpack-dev-server:  #THIS NEEDS TO BE CHECKED WITH CASEY
+Open new terminal window, and start running the webpack-dev-server:
 
 ```sh
 cd emojivoto-web
 yarn webpack-dev-server --port 8083
 ```
 
-Open new terminal window and start running the web server:  #THIS NEEDS TO BE CHECKED WITH CASEY
+Open new terminal window and start running the web server:
 
 ```sh
 cd emojivoto-web
