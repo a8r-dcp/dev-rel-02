@@ -15,9 +15,9 @@ In order to do a hard-redeploy of the emojivoto-dev namespace (if you're running
 3. `kubectl delete svc -n emojivoto-dev --all`
 4. (from dev-rel-01 directory) `git checkout dev`
 5. `cd yaml/emojivoto`
-6. `kubectl apply -f emoji-svc`                  
-7. `kubectl apply -f emoji-voting`    
-8. `kubectl apply -f emoji-web`          
+6. `kubectl apply -f emoji-svc.yaml`                  
+7. `kubectl apply -f emoji-voting.yaml`    
+8. `kubectl apply -f emoji-web.yaml`          
 9. `cd .. && git checkout main`  
 
 ## Service Catalog Notes
@@ -125,7 +125,7 @@ make build
 #### Show emojivoto-dev page
 
 ```sh
-open emojivoto-dev.dr.mturner.k736.net
+open https://emojivoto-dev.dr.mturner.k736.net
 ```
 
 #### Show emojivoto-dev service catalog
@@ -140,11 +140,31 @@ Select the `web-svc` card under the Development column.  This will be the deploy
 
 #### Run intercept and start code locally
 
+Check out new test code:     #THIS NEEDS TO BE CHECKED WITH CASEY
+
+```sh
+git checkout cakuros/web-update
+```
+
+Open new terminal window, and start running the webpack-dev-server:
+
+```sh
+cd emojivoto-web/webapp
+yarn webpack-dev-server --port 8083
+```
+
+Open new terminal window and start running the web server:
+
+```sh
+cd emojivoto-web
+make run-tel
+```
+
 Start intercept:
 
 ```sh
 telepresence login && \
-telepresence intercept web-svc -n emojivoto-dev --port 8080:80 -u=true
+telepresence intercept web -n emojivoto-dev --port 8080:80 -u=true
 ```
 
 *Note* Step 4 is required.  The Emojivoto app is virtually hosted and requires the specific hostname `emojivoto-dev.dr.mturner.k736.net` in order to be accessed.
@@ -160,26 +180,6 @@ telepresence intercept web-svc -n emojivoto-dev --port 8080:80 -u=true
   4/4: If required by your ingress, specify a different layer 5 hostname
     (TLS-SNI, HTTP "Host" header) to access this service.
       [default: ambassador.ambassador]: emojivoto-dev.dr.mturner.k736.net
-```
-
-Check out new test code:     #THIS NEEDS TO BE CHECKED WITH CASEY
-
-```sh
-git checkout cakuros/web-update
-```
-
-Open new terminal window, and start running the webpack-dev-server:  #THIS NEEDS TO BE CHECKED WITH CASEY
-
-```sh
-cd emojivoto-web
-yarn webpack-dev-server --port 8083
-```
-
-Open new terminal window and start running the web server:  #THIS NEEDS TO BE CHECKED WITH CASEY
-
-```sh
-cd emojivoto-web
-make run-tel
 ```
 
 Open the new intercepted service (e.g. https://laughing-benz-205.preview-beta.edgestack.me):
@@ -223,7 +223,7 @@ kubectl argo rollouts get rollout -n emojivoto web -w
 Show the production version of Emojivoto:
 
 ```sh
-emojivoto.dr.mturner.k736.net
+open https://emojivoto.dr.mturner.k736.net
 ```
 
 Go back to DCP startpage:
@@ -250,7 +250,7 @@ Back in the Service Catalog, you will be able to see some stats about the Rollou
 
 Some grafana dashboards (admin:prom-operator):
 Ambassador Dashboard: https://monitoring.dr.mturner.k736.net/grafana/d/R_NuxHVWk/ambassador-dashboard?refresh=1m&orgId=1
-ArgoCD and ArgoRollouts Dashboards are TBD.  
+ArgoCD and ArgoRollouts Dashboards are TBD.
 
 #### Check new rollout
 
