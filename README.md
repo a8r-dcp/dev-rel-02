@@ -158,7 +158,7 @@ git checkout cakuros/web-update
 Open new terminal window, and start running the webpack-dev-server:
 
 ```sh
-cd emojivoto-web
+cd emojivoto-web/webapp 
 yarn webpack-dev-server --port 8083
 ```
 
