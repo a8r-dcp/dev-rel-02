@@ -175,7 +175,7 @@ Start intercept:
 
 ```sh
 telepresence login && \
-telepresence intercept web-svc -n emojivoto-dev --port 8080:80 -u=true
+telepresence intercept web -n emojivoto-dev --port 8080:80 -u=true
 ```
 
 *Note* Step 4 is required.  The Emojivoto app is virtually hosted and requires the specific hostname `emojivoto-dev.dr.mturner.k736.net` in order to be accessed.
