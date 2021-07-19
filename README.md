@@ -114,7 +114,16 @@ Export Kubeconfig:
 export KUBECONFIG=$(pwd)/cluster-setup/dev-rel-01.yaml
 ```
 
-Build dependencies and generate protobuf code:
+Before building the emojivoto app you must ensure the following prerequisites:
+- Docker installed and running locally: https://www.docker.com/products/docker-desktop
+- Go installed locally (via brew/apt or manually): https://golang.org/dl/
+- Protobuf building utility `protoc-gen-go-grpc` installed locally via Go (see command below)
+
+```sh
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+```
+
+Next, build dependencies and generate protobuf code:
 
 ```sh
 make build
@@ -149,7 +158,7 @@ git checkout cakuros/web-update
 Open new terminal window, and start running the webpack-dev-server:
 
 ```sh
-cd emojivoto-web
+cd emojivoto-web/webapp 
 yarn webpack-dev-server --port 8083
 ```
 
@@ -166,7 +175,7 @@ Start intercept:
 
 ```sh
 telepresence login && \
-telepresence intercept web-svc -n emojivoto-dev --port 8080:80 -u=true
+telepresence intercept web -n emojivoto-dev --port 8080:80 -u=true
 ```
 
 *Note* Step 4 is required.  The Emojivoto app is virtually hosted and requires the specific hostname `emojivoto-dev.dr.mturner.k736.net` in order to be accessed.
