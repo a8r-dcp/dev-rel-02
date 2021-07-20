@@ -23,22 +23,22 @@ metadata:
   name: redis-cart
   namespace: boutique-dev
   annotations:
-    a8r.io/description: "Provides text ads based on given context words. Lanaguage = Java"
-    a8r.io/owner: "Daniel Bryant"  # Updated 07.08.21
+    a8r.io/description: "Provides text ads based on given context words. Language = Java"
+    a8r.io/owner: "Daniel Bryant"
     ### Opens slack and shows Daniel Bryant's slack profile
     a8r.io/chat: https://datawire.slack.com/team/U8SPRLSQK
     ### Issues page on application repository
-    a8r.io/bugs: "https://github.com/aes-t2/dev-rel-01/issues" # Updated 07.08.21
+    a8r.io/bugs: "https://github.com/a8r-dcp/dev-rel-01/issues"
     ### Goes to Ambassador Labs docs: Log levels and debugging
     a8r.io/logs: https://www.getambassador.io/docs/edge-stack/latest/topics/running/running/#log-levels-and-debugging
     ### Goes to the Ambassdor Labs Cloud Annotations documentation
     a8r.io/documentation: https://www.getambassador.io/docs/cloud/latest/service-catalog/reference/annotations/
     ### Emojivoto repository
-    a8r.io/repository: https://github.com/aes-t2/dev-rel-01.git  # Updated 07.08.21
+    a8r.io/repository: https://github.com/a8r-dcp/dev-rel-01.git
     ### Ambassador Labs Support Portal Login Page
-    a8r.io/support: https://support.datawire.io/hc/en-us  # Updated 07.08.21
+    a8r.io/support: https://support.datawire.io/hc/en-us
     ### Ambassador docs debugging page
-    a8r.io/runbook: https://www.getambassador.io/docs/latest/topics/running/debugging/ # Updated 07.08.2
+    a8r.io/runbook: https://www.getambassador.io/docs/latest/topics/running/debugging/
     ### Opens Ambassador Labs' page "Incident response in the cloud-native world"
     a8r.io/incidents: https://www.getambassador.io/docs/cloud/latest/service-catalog/concepts/ir/#incident-response-in-the-cloud-native-world
     ### Jaeger Trace Boutique App.  Frontend to Shipping & Product Catalog
