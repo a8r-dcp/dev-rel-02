@@ -13,8 +13,8 @@ metadata:
     a8r.io/bugs: "https://github.com/a8r-dcp/dev-rel-01/issues"
     ### Goes to Ambassador Labs docs: Log levels and debugging
     a8r.io/logs: https://www.getambassador.io/docs/edge-stack/latest/topics/running/running/#log-levels-and-debugging
-    ### Goes to the Ambassdor Labs Cloud Annotations documentation
-    a8r.io/documentation: https://www.getambassador.io/docs/cloud/latest/service-catalog/reference/annotations/
+    ### Goes to AES Dev Portal
+    a8r.io/documentation: https://monitoring.dr.mturner.k736.net/docs/
     ### Emojivoto repository
     a8r.io/repository: https://github.com/a8r-dcp/dev-rel-01.git
     ### Ambassador Labs Support Portal Login Page
