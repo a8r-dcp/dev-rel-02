@@ -1,0 +1,5 @@
+k8s_config:
+- manifest_path: /yaml
+  cluster_info:
+    cluster_id: a3562543-482c-5c33-95ca-faa79966c26f
+    cluster_name: dev-rel-02
